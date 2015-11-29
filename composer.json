@@ -1,0 +1,20 @@
+{
+    "name": "dkulyk/esputnik",
+    "description": "ESputnik connector",
+    "require": {
+        "php": "~5.4",
+        "ext-curl": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmytro Kulyk",
+            "email": "lnkvisitor.ts@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ESputnik\\": "src/"
+        }
+    }
+}
