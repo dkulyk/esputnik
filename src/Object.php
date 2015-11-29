@@ -17,9 +17,6 @@ use ReflectionProperty;
  */
 class Object implements \JsonSerializable
 {
-    protected static $root;
-
-
     /**
      * Object constructor.
      * @param array $data

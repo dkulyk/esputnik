@@ -20,7 +20,6 @@ use ESputnik\Object;
  */
 class AddressBook extends Object
 {
-    static protected $root = 'addressBook';
     /**
      * @var int
      */
