@@ -9,6 +9,7 @@
 
 namespace ESputnik\Types;
 
+use ESputnik\ESException;
 use ESputnik\Object;
 
 /**
@@ -28,4 +29,24 @@ class Channel extends Object
      * @var string
      */
     protected $value;
+
+    /**
+     * Set the type value
+     *
+     * @param string $type
+     * @throws ESException
+     */
+    public function setType($type)
+    {
+        static $values = array(
+            'email',
+            'sms'
+        );
+
+        if (!in_array($type, $values)) {
+            throw new ESException('Property type must be one of ' . implode(', ', $values) . ' values.');
+        }
+
+        $this->type = $type;
+    }
 }

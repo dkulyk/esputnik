@@ -9,6 +9,7 @@
 
 namespace ESputnik\Types;
 
+use ESputnik\ESException;
 use ESputnik\Object;
 
 /**
@@ -70,12 +71,50 @@ class ContactsBulkUpdate extends Object
     }
 
     /**
+     * Set the DedupeOn value
+     *
+     * @param string|int $dedupeOn
+     * @throws ESException
+     */
+    public function setDedupeOn($dedupeOn)
+    {
+        static $values = array('email', 'sms', 'email_or_sms', 'fieldId', 'id');
+
+        if (!in_array($dedupeOn, $values)) {
+            if (is_numeric($dedupeOn)) {
+                $this->fieldId = (int)$dedupeOn;
+                $dedupeOn = 'fieldId';
+            } else {
+                throw new ESException('Property dedupeOn must be one of ' . implode(', ', $values) . ' or numeric.');
+            }
+        }
+
+        $this->dedupeOn = $dedupeOn;
+    }
+
+    /**
+     * Set the contactFields value
+     *
      * @param ContactField[] $contactFields
      */
     public function setContactFields(array $contactFields)
     {
-        $this->contactFields = array_map(function ($contactField) {
-            return $contactField instanceof ContactField ? $contactField : new ContactField($contactField);
+        static $values = array(
+            'firstName',
+            'contactKey',
+            'lastName',
+            'email',
+            'sms',
+            'address',
+            'town',
+            'region',
+            'postcode'
+        );
+
+        $this->contactFields = array_map(function ($contactField) use ($values) {
+            if (!in_array($contactField, $values)) {
+                throw new ESException('Property contactFields must be array of ' . implode(', ', $values) . ' values.');
+            }
         }, $contactFields);
     }
 

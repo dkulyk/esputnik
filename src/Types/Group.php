@@ -9,6 +9,7 @@
 
 namespace ESputnik\Types;
 
+use ESputnik\ESException;
 use ESputnik\ESputnik;
 use ESputnik\Object;
 
@@ -50,5 +51,26 @@ class Group extends Object
             $id = ESputnik::id();
         }
         return $id->getContacts($this, $offset, $limit);
+    }
+
+    /**
+     * Set the type value
+     *
+     * @param string $type
+     * @throws ESException
+     */
+    public function setType($type)
+    {
+        static $values = array(
+            'Static',
+            'Dynamic',
+            'Combined'
+        );
+
+        if (!in_array($type, $values)) {
+            throw new ESException('Property type must be one of ' . implode(', ', $values) . ' values.');
+        }
+
+        $this->type = $type;
     }
 }
