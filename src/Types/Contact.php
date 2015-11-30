@@ -22,7 +22,7 @@ use ESputnik\Object;
  * @property ContactField[] $fields
  * @property int $addressBookId
  * @property string $contactKey
- * @property GroupDto[] $groups
+ * @property Group[] $groups
  *
  */
 class Contact extends Object
@@ -68,7 +68,7 @@ class Contact extends Object
     protected $contactKey;
 
     /**
-     * @var GroupDto[]
+     * @var Group[]
      */
     protected $groups = array();
 
@@ -101,12 +101,12 @@ class Contact extends Object
     }
 
     /**
-     * @param GroupDto[] $groups
+     * @param Group[] $groups
      */
     public function setGroups(array $groups)
     {
         $this->groups = array_map(function ($group) {
-            return $group instanceof GroupDto ? $group : new GroupDto($group);
+            return $group instanceof Group ? $group : new Group($group);
         }, $groups);
     }
 

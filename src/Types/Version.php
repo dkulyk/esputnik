@@ -12,26 +12,20 @@ namespace ESputnik\Types;
 use ESputnik\Object;
 
 /**
- * Class GroupDto
+ * Class Version
  *
- * @property int $id
- * @property string $name
- * @property string $type
+ * @property string $version
+ * @property string $protocolVersion
  */
-class GroupDto extends Object
+class Version extends Object
 {
     /**
-     * @var int
+     * @var string
      */
-    protected $id;
+    protected $version;
 
     /**
      * @var string
      */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $type;
+    protected $protocolVersion;
 }

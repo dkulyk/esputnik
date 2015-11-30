@@ -8,13 +8,34 @@
  */
 
 namespace ESputnik;
-use ESputnik\Types\Contacts;
 
 /**
  * Class ESputnik
  */
 class ESputnik
 {
+    /**
+     * Global ESputnik instance
+     *
+     * @var ESputnik
+     */
+    static protected $id;
+
+    /**
+     * Get global/initialize ESputnik instance
+     *
+     * @param null $user
+     * @param null $password
+     * @return ESputnik
+     */
+    static public function id($user = null, $password = null)
+    {
+        if (static::$id === null) {
+            static::$id = new static($user, $password);
+        }
+        return static::$id;
+    }
+
     /**
      * cURL handle
      * @var resource
@@ -39,6 +60,17 @@ class ESputnik
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 2
         ));
+    }
+
+    /**
+     * Get the version of the protocol.
+     *
+     * @return Types\Version
+     * @throws ESException
+     */
+    public function version()
+    {
+        return new Types\Version($this->request('GET', 'version'));
     }
 
     /**
@@ -91,7 +123,7 @@ class ESputnik
      * @param int $offset
      * @param int $limit
      * @param array $params
-     * @return Types\Contact[]
+     * @return Types\Contacts
      * @throws ESException
      */
     public function getContacts($offset = 0, $limit = 500, array $params = array())
@@ -101,7 +133,7 @@ class ESputnik
             'maxrows'    => $limit
         )), null, $headers);
 
-        return new Contacts(array(
+        return new Types\Contacts(array(
             'totalCount' => $headers['TotalCount'],
             'contacts'   => $response
         ));
@@ -193,16 +225,103 @@ class ESputnik
     }
 
     /**
+     * Add email-in to the list unsubscribe.
+     *
+     * @param string[] $emails
+     * @return bool
+     * @throws ESException
+     * @todo untested
+     */
+    public function addUnsubscribed(array $emails)
+    {
+        return $this->request('POST', 'emails/unsubscribed/add', array(), array('emails' => $emails)) !== false;
+    }
+
+    /**
+     * Remove email-s unsubscribe from the list.
+     *
+     * @param string[] $emails
+     * @return bool
+     * @throws ESException
+     * @todo untested
+     */
+    public function deleteUnsubscribed(array $emails)
+    {
+        return $this->request('POST', 'emails/unsubscribed/delete', array(), array('emails' => $emails)) !== false;
+    }
+
+    /**
+     * Add New Event.
+     *
+     * @param Types\Event $event
+     * @return boolean
+     * @throws ESException
+     * @todo untested
+     */
+    public function addEvent(Types\Event $event)
+    {
+        return $this->request('POST', 'event', array(), $event) !== false;
+    }
+
+    /**
+     * Search groups.
+     *
+     * @param int $offset
+     * @param int $limit
+     * @param string[] $params
+     * @return Types\Group[]
+     * @throws ESException
+     */
+    public function getGroups($offset = 0, $limit = 500, array $params = array())
+    {
+        $response = $this->request('GET', 'groups', array_merge($params, array(
+            'startindex' => $offset + 1,
+            'maxrows'    => $limit
+        )));
+
+        return array_map(function ($group) {
+            return new Types\Group($group);
+        }, $response);
+    }
+
+    /**
+     * Search from all contacts in the group.
+     *
+     * @param int|Types/Group $group
+     * @param int $offset
+     * @param int $limit
+     * @return Types\Contacts
+     * @throws ESException
+     */
+    public function getGroupContacts($group, $offset = 0, $limit = 500)
+    {
+        if ($group instanceof Types\Group) {
+            $group = $group->id;
+        }
+
+        $response = $this->request('GET', 'group/' . $group . '/contacts', array(
+            'startindex' => $offset + 1,
+            'maxrows'    => $limit
+        ),null,$headers);
+
+        return new Types\Contacts(array(
+            'totalCount' => $headers['TotalCount'],
+            'contacts'   => $response
+        ));
+    }
+
+    /**
      * Make request to ESputnik API
+     *
      * @param $method
      * @param $action
      * @param array $query
-     * @param \ESputnik\Object $data
+     * @param mixed $data
      * @param array $headers
      * @return mixed
      * @throws ESException
      */
-    protected function request($method, $action, array $query = array(), Object $data = null, &$headers = null)
+    protected function request($method, $action, array $query = array(), $data = null, &$headers = null)
     {
         curl_setopt($this->curl, CURLOPT_URL, 'https://esputnik.com.ua/api/v1/' . $action . '?' . http_build_query($query));
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
