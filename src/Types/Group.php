@@ -19,6 +19,8 @@ use ESputnik\Object;
  * @property int $id
  * @property string $name
  * @property string $type
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_group.html
  */
 class Group extends Object
 {
@@ -50,7 +52,7 @@ class Group extends Object
         if ($id === null) {
             $id = ESputnik::id();
         }
-        return $id->getContacts($this, $offset, $limit);
+        return $id->getGroupContacts($this, $offset, $limit);
     }
 
     /**

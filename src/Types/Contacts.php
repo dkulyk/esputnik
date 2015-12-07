@@ -15,9 +15,9 @@ use ESputnik\Object;
 /**
  * Class Contacts
  *
+ * @mixin Contact[]
  * @property int $totalCount
  * @property Contact[] $contacts
- * @mixin Contact[]
  */
 class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
 {

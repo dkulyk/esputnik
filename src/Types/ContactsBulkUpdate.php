@@ -22,6 +22,8 @@ use ESputnik\Object;
  * @property int[] $customFieldsIDs
  * @property string[] $groupNames
  * @property boolean $restoreDeleted
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_contactsBulkUpdate.html
  */
 class ContactsBulkUpdate extends Object
 {

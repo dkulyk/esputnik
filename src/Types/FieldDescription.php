@@ -18,6 +18,8 @@ use ESputnik\Object;
  * @property boolean $required
  * @property boolean $readonly
  * @property AllowedValues $allowedValues
+ *
+ * @link http://esputnik.com.ua/api/ns0_fieldDescription.html
  */
 class FieldDescription extends Object
 {

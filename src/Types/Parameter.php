@@ -16,6 +16,8 @@ use ESputnik\Object;
  *
  * @property string $name
  * @property string $value
+ *
+ * @link http://esputnik.com.ua/api/ns1_parameter.html
  */
 class Parameter extends Object
 {

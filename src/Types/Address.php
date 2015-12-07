@@ -18,6 +18,8 @@ use ESputnik\Object;
  * @property string $town
  * @property string $address
  * @property string $postcode
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_address.html
  */
 class Address extends Object
 {

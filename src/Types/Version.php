@@ -16,6 +16,8 @@ use ESputnik\Object;
  *
  * @property string $version
  * @property string $protocolVersion
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_version.html
  */
 class Version extends Object
 {

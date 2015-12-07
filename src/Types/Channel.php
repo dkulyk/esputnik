@@ -17,6 +17,8 @@ use ESputnik\Object;
  *
  * @property string $type
  * @property string $value
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_channel.html
  */
 class Channel extends Object
 {

@@ -21,6 +21,8 @@ use ESputnik\Object;
  * @property int $sent
  * @property int $delivered
  * @property int $errors
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_callout.html
  */
 class CallOut extends Object
 {

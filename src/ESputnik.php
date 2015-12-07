@@ -11,6 +11,8 @@ namespace ESputnik;
 
 /**
  * Class ESputnik
+ *
+ * @link http://esputnik.com.ua/api/application.wadl
  */
 class ESputnik
 {
@@ -52,12 +54,14 @@ class ESputnik
 
     /**
      * Last response body
+     *
      * @var string
      */
     protected $httpResponse;
 
     /**
-     * ESputnik constructor.
+     * ESputnik constructor
+     *
      * @param string $user
      * @param string $password
      */
@@ -82,7 +86,7 @@ class ESputnik
      * @return Types\Version
      * @throws ESException
      */
-    public function version()
+    public function getVersion()
     {
         return new Types\Version($this->request('GET', 'version'));
     }
@@ -105,7 +109,7 @@ class ESputnik
      * @return Types\Balance
      * @throws ESException
      */
-    public function getBalance()
+    public function getUserOrganisationBalance()
     {
         $response = $this->request('GET', 'balance');
         return new Types\Balance($response['addressBook']);
@@ -140,7 +144,7 @@ class ESputnik
      * @return Types\Contacts
      * @throws ESException
      */
-    public function findContacts($offset = 0, $limit = 500, array $params = array())
+    public function searchContacts($offset = 0, $limit = 500, array $params = array())
     {
         $response = $this->request('GET', 'contacts', array_merge($params, array(
             'startindex' => $offset + 1,
@@ -161,7 +165,7 @@ class ESputnik
      * @throws ESException
      * @todo untested
      */
-    public function updateContacts(Types\ContactsBulkUpdate $contacts)
+    public function contactsBulkUpdate(Types\ContactsBulkUpdate $contacts)
     {
         return $this->request('POST', 'contacts', array(), $contacts);
     }
@@ -174,7 +178,7 @@ class ESputnik
      * @throws ESException
      * @todo untested
      */
-    public function getContactsEmails(array $ids)
+    public function getContactEmails(array $ids)
     {
         $response = $this->request('GET', 'contacts/email', array('ids' => implode(',', $ids)));
 
@@ -235,6 +239,12 @@ class ESputnik
         return $response !== false;
     }
 
+    public function subscribeContact()
+    {
+        // contact/subscribe POST
+        // http://esputnik.com.ua/api/el_ns0_subscribeContact.html
+    }
+
     /**
      * Remove contact.
      *
@@ -264,7 +274,7 @@ class ESputnik
      * @throws ESException
      * @todo untested
      */
-    public function addUnsubscribed(array $emails)
+    public function addToUnsubscribed(array $emails)
     {
         return $this->request('POST', 'emails/unsubscribed/add', array(), array('emails' => $emails)) !== false;
     }
@@ -277,7 +287,7 @@ class ESputnik
      * @throws ESException
      * @todo untested
      */
-    public function deleteUnsubscribed(array $emails)
+    public function deleteFromUnsubscribed(array $emails)
     {
         return $this->request('POST', 'emails/unsubscribed/delete', array(), array('emails' => $emails)) !== false;
     }
@@ -285,14 +295,31 @@ class ESputnik
     /**
      * Add New Event.
      *
-     * @param Types\Event $event
+     * @param Types\EventDto $event
      * @return boolean
      * @throws ESException
      * @todo untested
      */
-    public function addEvent(Types\Event $event)
+    public function registerEvent(Types\EventDto $event)
     {
         return $this->request('POST', 'event', array(), $event) !== false;
+    }
+
+    /**
+     * @param int $eventTypeId
+     * @param int $start
+     * @param int $end
+     * @retorn todo
+     * @throws ESException
+     * @todo
+     */
+    public function resendEvents($eventTypeId, $start, $end)
+    {
+        $this->request('GET', 'event', array(
+            'eventTypeId' => $eventTypeId,
+            'start'       => $start,
+            'end'         => $end
+        ));
     }
 
     /**
@@ -300,16 +327,17 @@ class ESputnik
      *
      * @param int $offset
      * @param int $limit
-     * @param string[] $params
+     * @param string $name
      * @return Types\Group[]
      * @throws ESException
      */
-    public function findGroups($offset = 0, $limit = 500, array $params = array())
+    public function searchGroups($offset = 0, $limit = 500, $name = '')
     {
-        $response = $this->request('GET', 'groups', array_merge($params, array(
+        $response = $this->request('GET', 'groups', array(
             'startindex' => $offset + 1,
-            'maxrows'    => $limit
-        )));
+            'maxrows'    => $limit,
+            'name'       => $name
+        ));
 
         return array_map(function ($group) {
             return new Types\Group($group);
@@ -347,11 +375,10 @@ class ESputnik
         // /v1/message/email	POST
     }
 
-    public function getEmailStatus()
+    public function getInstantEmailStatus()
     {
         // /v1/message/email/status	GET
     }
-
 
     /**
      * Add email-message.
@@ -381,7 +408,7 @@ class ESputnik
      * @return Types\EmailMessage[]
      * @throws ESException
      */
-    public function findEmails($offset = 0, $limit = 500, $search = '')
+    public function searchEmails($offset = 0, $limit = 500, $search = '')
     {
         $response = $this->request('GET', 'messages/email', array(
             'startindex' => $offset + 1,
@@ -419,7 +446,7 @@ class ESputnik
      * @return boolean
      * @throws ESException
      */
-    public function updateEmail(Types\EmailMessage $message)
+    public function updateMessage(Types\EmailMessage $message)
     {
         $response = $this->request('PUT', 'messages/email/' . $message->id, array(), $message);
 
@@ -452,39 +479,77 @@ class ESputnik
         return $response !== false;
     }
 
+    public function getInstantMessagesStatus()
+    {
+        // message/status GET
+    }
+
     public function sendSMS()
     {
         // /v1/message/sms	POST
     }
 
-    public function getSMSStatus()
+    public function getInstantSmsStatus()
     {
         // /v1/message/sms/status	GET
     }
 
-    public function findSMS()
+    public function searchSms()
     {
         // /v1/messages/sms	GET
     }
 
-    public function getImportStatus()
+    public function getImportSessionStatus()
     {
         // /v1/importstatus/{sessionId}	GET
     }
 
-    public function getSMSInterfaces()
+    public function getSmsInterfaces()
     {
         // /v1/interfaces/sms	GET
     }
 
-    public function sendMessage()
+    public function sendPreparedMessage()
     {
         // /v1/message/{id}/send	POST
     }
 
-    public function smartsendEmail()
+    public function sendExtendedPreparedMessage()
     {
         // /v1/message/{id}/smartsend	POST
+    }
+
+    public function ordersBulkInsert(array $orders)
+    {
+        // orders POST
+    }
+
+    public function getSmsCallouts()
+    {
+        // callouts/sms GET
+    }
+
+    public function contactActivity()
+    {
+        // contactActivity GET
+    }
+
+    public function startCampaign()
+    {
+        // campaigns/{id}/star POST
+    }
+
+    public function searchContactsOld()
+    {
+        // contacts/old GET
+    }
+
+    /**
+     * @param int $id
+     */
+    public function stopImCallout($id)
+    {
+        // messages/{id}/stop POST
     }
 
     /**

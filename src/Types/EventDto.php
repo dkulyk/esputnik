@@ -18,8 +18,10 @@ use ESputnik\Object;
  * @property string $keyValue
  * @property Parameter[] $parameters
  * @property string[string] $parametersArray
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_eventDto.html
  */
-class Event extends Object
+class EventDto extends Object
 {
     /**
      * @var string

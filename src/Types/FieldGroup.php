@@ -16,6 +16,8 @@ use ESputnik\Object;
  *
  * @property string $name
  * @property FieldInfo[] $fields
+ *
+ * @link http://esputnik.com.ua/api/ns0_fieldGroup.html
  */
 class FieldGroup extends Object
 {

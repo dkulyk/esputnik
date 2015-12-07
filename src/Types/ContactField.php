@@ -16,6 +16,8 @@ use ESputnik\Object;
  *
  * @property int $id
  * @property string $value
+ *
+ * @link http://esputnik.com.ua/api/ns0_contactField.html
  */
 class ContactField extends Object
 {

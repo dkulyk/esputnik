@@ -17,6 +17,8 @@ use ESputnik\Object;
  * @property int $addressBookId
  * @property string $name
  * @property FieldGroup[] $fieldGroups
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_addressBook.html
  */
 class AddressBook extends Object
 {

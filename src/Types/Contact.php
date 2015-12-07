@@ -24,6 +24,7 @@ use ESputnik\Object;
  * @property string $contactKey
  * @property Group[] $groups
  *
+ * @link http://esputnik.com.ua/api/el_ns0_contact.html
  */
 class Contact extends Object
 {

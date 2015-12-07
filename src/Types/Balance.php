@@ -14,11 +14,13 @@ use ESputnik\Object;
 /**
  * Class Balance
  *
- * @property double $currentBalance
- * @property double $creditLimit
- * @property string $currency
- * @property int $bonusEmails
- * @property int $bonusSmses
+ * @property-read double $currentBalance
+ * @property-read double $creditLimit
+ * @property-read string $currency
+ * @property-read int $bonusEmails
+ * @property-read int $bonusSmses
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_balance.html
  */
 class Balance extends Object
 {

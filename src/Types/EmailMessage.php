@@ -20,6 +20,8 @@ use ESputnik\Object;
  * @property string $subject
  * @property string $htmlText
  * @property string[] $tags
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_emailMessage.html
  */
 class EmailMessage extends Object
 {

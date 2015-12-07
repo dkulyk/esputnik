@@ -17,6 +17,8 @@ use ESputnik\Object;
  * @property string[] $possibleValues
  * @property int $minValue
  * @property int $maxValue
+ *
+ * @link http://esputnik.com.ua/api/el_ns0_allowedValues.html
  */
 class AllowedValues extends Object
 {
