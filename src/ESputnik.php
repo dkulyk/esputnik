@@ -249,7 +249,7 @@ class ESputnik
      */
     public function subscribeContact(SubscribeContact $subscribeContact)
     {
-        $response = $this->request('POST', 'contact/subscribe ', array(), $subscribeContact);
+        $response = $this->request('POST', 'contact/subscribe', array(), $subscribeContact);
         if ($this->httpCode === 404) {
             return false;
         }
