@@ -8,6 +8,7 @@
  */
 
 namespace ESputnik;
+use ESputnik\Types\SubscribeContact;
 
 /**
  * Class ESputnik
@@ -239,10 +240,21 @@ class ESputnik
         return $response !== false;
     }
 
-    public function subscribeContact()
+    /**
+     * Subscribe contact
+     *
+     * @param SubscribeContact $subscribeContact
+     * @return bool
+     * @throws ESException
+     */
+    public function subscribeContact(SubscribeContact $subscribeContact)
     {
-        // contact/subscribe POST
-        // http://esputnik.com.ua/api/el_ns0_subscribeContact.html
+        $response = $this->request('POST', 'contact/subscribe ', array(), $subscribeContact);
+        if ($this->httpCode === 404) {
+            return false;
+        }
+
+        return $response !== false;
     }
 
     /**
@@ -309,7 +321,7 @@ class ESputnik
      * @param int $eventTypeId
      * @param int $start
      * @param int $end
-     * @retorn todo
+     * @return todo
      * @throws ESException
      * @todo
      */
