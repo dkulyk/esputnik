@@ -337,13 +337,13 @@ class ESputnik
     /**
      * Search groups.
      *
+     * @param string $name
      * @param int $offset
      * @param int $limit
-     * @param string $name
      * @return Types\Group[]
      * @throws ESException
      */
-    public function searchGroups($offset = 0, $limit = 500, $name = '')
+    public function searchGroups($name = '', $offset = 0, $limit = 500)
     {
         $response = $this->request('GET', 'groups', array(
             'startindex' => $offset + 1,
@@ -414,13 +414,13 @@ class ESputnik
     /**
      * Search email-messages on the part of the name or label.
      *
+     * @param string $search
      * @param int $offset
      * @param int $limit
-     * @param string $search
      * @return Types\EmailMessage[]
      * @throws ESException
      */
-    public function searchEmails($offset = 0, $limit = 500, $search = '')
+    public function searchEmails($search = '', $offset = 0, $limit = 500)
     {
         $response = $this->request('GET', 'messages/email', array(
             'startindex' => $offset + 1,
