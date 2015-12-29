@@ -614,7 +614,7 @@ class ESputnik
             return $result;
         }, array());
 
-        $this->httpResponse = substr($response, $header_size);
+        $this->httpResponse = mb_strlen($response) === $header_size ? '' : substr($response, $header_size);
 
         switch ($this->httpCode) {
             case 401:
