@@ -22,7 +22,7 @@ class ESputnik
      *
      * @var ESputnik
      */
-    static protected $id;
+    static protected $_id;
 
     /**
      * Get global/initialize ESputnik instance
@@ -33,10 +33,10 @@ class ESputnik
      */
     static public function id($user = null, $password = null)
     {
-        if (static::$id === null) {
-            static::$id = new static($user, $password);
+        if (static::$_id === null) {
+            static::$_id = new static($user, $password);
         }
-        return static::$id;
+        return static::$_id;
     }
 
     /**
@@ -212,6 +212,7 @@ class ESputnik
      *
      * @param Types\Contact $contact
      * @return boolean;
+     * @throws ESException
      */
     public function addContact(Types\Contact $contact)
     {
@@ -228,6 +229,7 @@ class ESputnik
      *
      * @param Types\Contact $contact
      * @return boolean
+     * @throws ESException
      */
     public function updateContact(Types\Contact $contact)
     {
@@ -262,6 +264,7 @@ class ESputnik
      *
      * @param int $contact
      * @return boolean
+     * @throws ESException
      */
     public function deleteContact($contact)
     {
@@ -591,7 +594,7 @@ class ESputnik
      * @param $action
      * @param array $query
      * @param mixed $data
-     * @param array $headers
+     * @param array $headers [optional]
      * @return mixed
      * @throws ESException
      */
@@ -599,7 +602,7 @@ class ESputnik
     {
         curl_setopt($this->curl, CURLOPT_URL, 'https://esputnik.com.ua/api/v1/' . $action . '?' . http_build_query($query));
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
-        if (in_array($method, array('PUT', 'POST'))) {
+        if (in_array($method, array('PUT', 'POST'), true)) {
             $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $json);
         }
