@@ -82,7 +82,7 @@ class ContactsBulkUpdate extends Object
     {
         static $values = array('email', 'sms', 'email_or_sms', 'fieldId', 'id');
 
-        if (!in_array($dedupeOn, $values)) {
+        if (!in_array($dedupeOn, $values, true)) {
             if (is_numeric($dedupeOn)) {
                 $this->fieldId = (int)$dedupeOn;
                 $dedupeOn = 'fieldId';
@@ -98,6 +98,7 @@ class ContactsBulkUpdate extends Object
      * Set the contactFields value
      *
      * @param ContactField[] $contactFields
+     * @throws ESException
      */
     public function setContactFields(array $contactFields)
     {
@@ -114,7 +115,7 @@ class ContactsBulkUpdate extends Object
         );
 
         $this->contactFields = array_map(function ($contactField) use ($values) {
-            if (!in_array($contactField, $values)) {
+            if (!in_array($contactField, $values, true)) {
                 throw new ESException('Property contactFields must be array of ' . implode(', ', $values) . ' values.');
             }
         }, $contactFields);
@@ -125,7 +126,7 @@ class ContactsBulkUpdate extends Object
      */
     public function setCustomFieldsIDs(array $customFieldsIDs)
     {
-        $this->contactFields = array_map('intval', $customFieldsIDs);
+        $this->customFieldsIDs = array_map('intval', $customFieldsIDs);
     }
 
     /**
