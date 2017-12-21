@@ -23,7 +23,7 @@
                 "ESputnik\\LaravelServiceProvider"
             ],
             "aliases": {
-                "Modules": "ESputnik\\Facades\\ESputnik"
+                "ESputnik": "ESputnik\\Facades\\ESputnik"
             }
         }
     }
