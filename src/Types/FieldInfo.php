@@ -1,26 +1,20 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class FieldInfo
  *
- * @property int $id
- * @property string $name
+ * @property int              $id
+ * @property string           $name
  * @property FieldDescription $description
  *
  * @link http://esputnik.com.ua/api/ns0_fieldInfo.html
  */
-class FieldInfo extends Object
+class FieldInfo extends ESObject
 {
     /**
      * @var int

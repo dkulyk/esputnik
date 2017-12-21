@@ -1,32 +1,26 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class Contact
  *
- * @property int $id
- * @property string $firstName
- * @property string $lastName
- * @property Channel[] $channels
- * @property Address $address
+ * @property int            $id
+ * @property string         $firstName
+ * @property string         $lastName
+ * @property Channel[]      $channels
+ * @property Address        $address
  * @property ContactField[] $fields
- * @property int $addressBookId
- * @property string $contactKey
- * @property Group[] $groups
+ * @property int            $addressBookId
+ * @property string         $contactKey
+ * @property Group[]        $groups
  *
  * @link http://esputnik.com.ua/api/el_ns0_contact.html
  */
-class Contact extends Object
+class Contact extends ESObject
 {
     /**
      * @var int
@@ -46,7 +40,7 @@ class Contact extends Object
     /**
      * @var Channel[]
      */
-    protected $channels = array();
+    protected $channels = [];
 
     /**
      * @var Address
@@ -56,7 +50,7 @@ class Contact extends Object
     /**
      * @var ContactField[]
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
      * @var int
@@ -71,12 +65,12 @@ class Contact extends Object
     /**
      * @var Group[]
      */
-    protected $groups = array();
+    protected $groups = [];
 
     /**
      * @param Address $address
      */
-    public function setAddress($address)
+    public function setAddress($address): void
     {
         $this->address = $address instanceof Address ? $address : new Address($address);
     }
@@ -84,9 +78,9 @@ class Contact extends Object
     /**
      * @param Channel[] $channels
      */
-    public function setChannels(array $channels)
+    public function setChannels(array $channels): void
     {
-        $this->channels = array_map(function ($channel) {
+        $this->channels = \array_map(function ($channel) {
             return $channel instanceof Channel ? $channel : new Channel($channel);
         }, $channels);
     }
@@ -94,9 +88,9 @@ class Contact extends Object
     /**
      * @param ContactField[] $fields
      */
-    public function setFields(array $fields)
+    public function setFields(array $fields): void
     {
-        $this->fields = array_map(function ($field) {
+        $this->fields = \array_map(function ($field) {
             return $field instanceof ContactField ? $field : new ContactField($field);
         }, $fields);
     }
@@ -104,9 +98,9 @@ class Contact extends Object
     /**
      * @param Group[] $groups
      */
-    public function setGroups(array $groups)
+    public function setGroups(array $groups): void
     {
-        $this->groups = array_map(function ($group) {
+        $this->groups = \array_map(function ($group) {
             return $group instanceof Group ? $group : new Group($group);
         }, $groups);
     }
@@ -114,24 +108,25 @@ class Contact extends Object
     /**
      * @param string $type
      * @param string $value
+     *
      * @return Channel
      */
-    public function addChannel($type, $value)
+    public function addChannel(string $type, string $value): Channel
     {
         return $this->channels[] = new Channel(array(
             'channelType' => $type,
-            'value'       => $value
+            'value' => $value
         ));
     }
 
     /**
-     * @return string[int]
+     * @return string[]
      */
-    public function fieldsById()
+    public function fieldsById(): array
     {
-        return array_reduce($this->fields, function ($result, ContactField $field) {
+        return \array_reduce($this->fields, function ($result, ContactField $field) {
             $result[$field->id] = $field->value;
             return $result;
-        }, array());
+        }, []);
     }
 }

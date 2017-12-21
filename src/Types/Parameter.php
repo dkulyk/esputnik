@@ -1,15 +1,9 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class Parameter
@@ -19,7 +13,7 @@ use ESputnik\Object;
  *
  * @link http://esputnik.com.ua/api/ns1_parameter.html
  */
-class Parameter extends Object
+class Parameter extends ESObject
 {
     /**
      * @var string

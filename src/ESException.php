@@ -1,15 +1,12 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik;
 
+/**
+ * Class ESException
+ * @package ESputnik
+ */
 class ESException extends \Exception
 {
-
 }

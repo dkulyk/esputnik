@@ -1,25 +1,19 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class ContactField
  *
- * @property int $id
+ * @property int    $id
  * @property string $value
  *
  * @link http://esputnik.com.ua/api/ns0_contactField.html
  */
-class ContactField extends Object
+class ContactField extends ESObject
 {
     /**
      * @var int

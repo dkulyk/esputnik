@@ -1,29 +1,23 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class FieldDescription
  *
- * @property string $type
- * @property boolean $required
- * @property boolean $readonly
+ * @property string        $type
+ * @property boolean       $required
+ * @property boolean       $readonly
  * @property AllowedValues $allowedValues
  *
  * @link http://esputnik.com.ua/api/ns0_fieldDescription.html
  */
-class FieldDescription extends Object
+class FieldDescription extends ESObject
 {
-    static protected $types = array(
+    protected static $types = array(
         'textfield',
         'combobox',
         'checkboxlist',
@@ -55,10 +49,11 @@ class FieldDescription extends Object
 
     /**
      * @param AllowedValues $allowedValues
-     * @return AllowedValues
      */
-    public function setAllowedValues($allowedValues)
+    public function setAllowedValues($allowedValues): void
     {
-        $this->allowedValues = $allowedValues instanceof AllowedValues ? $allowedValues : new AllowedValues($allowedValues);
+        $this->allowedValues = $allowedValues instanceof AllowedValues
+            ? $allowedValues
+            : new AllowedValues($allowedValues);
     }
 }

@@ -1,25 +1,19 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
 use ESputnik\ESException;
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class Contacts
  *
  * @mixin Contact[]
- * @property int $totalCount
+ * @property int       $totalCount
  * @property Contact[] $contacts
  */
-class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
+class Contacts extends ESObject implements \Countable, \ArrayAccess, \Iterator
 {
     /**
      * @var int
@@ -29,14 +23,14 @@ class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
     /**
      * @var Contact[]
      */
-    protected $contacts = array();
+    protected $contacts = [];
 
     /**
      * @param Contact[] $contacts
      */
     public function setContacts($contacts)
     {
-        $this->contacts = array_map(function ($contact) {
+        $this->contacts = \array_map(function ($contact) {
             return $contact instanceof Contact ? $contact : new Contact($contact);
         }, $contacts);
     }
@@ -54,7 +48,7 @@ class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
      */
     public function count()
     {
-        return count($this->contacts);
+        return \count($this->contacts);
     }
 
     /**
@@ -62,7 +56,7 @@ class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
      */
     public function offsetExists($offset)
     {
-        return array_key_exists($offset, $this->contacts);
+        return \array_key_exists($offset, $this->contacts);
     }
 
     /**
@@ -94,7 +88,7 @@ class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
      */
     public function current()
     {
-        return current($this->contacts);
+        return \current($this->contacts);
     }
 
     /**
@@ -102,7 +96,7 @@ class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
      */
     public function next()
     {
-        next($this->contacts);
+        \next($this->contacts);
     }
 
     /**
@@ -110,7 +104,7 @@ class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
      */
     public function key()
     {
-        return key($this->contacts);
+        return \key($this->contacts);
     }
 
     /**
@@ -118,7 +112,7 @@ class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
      */
     public function valid()
     {
-        return current($this->contacts) !== false;
+        return \current($this->contacts) !== false;
     }
 
     /**
@@ -126,6 +120,6 @@ class Contacts extends Object implements \Countable, \ArrayAccess, \Iterator
      */
     public function rewind()
     {
-        reset($this->contacts);
+        \reset($this->contacts);
     }
 }

@@ -2,9 +2,8 @@
     "name": "dkulyk/esputnik",
     "description": "ESputnik connector",
     "require": {
-        "php": ">=5.3.0",
-        "ext-curl": "*",
-        "ext-mbstring": "*"
+        "php": ">=7.1.0",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "license": "MIT",
     "authors": [

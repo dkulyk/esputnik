@@ -1,30 +1,24 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class Callout
  *
  * @property string $calloutName
- * @property int $groupId
+ * @property int    $groupId
  * @property string $groupName
  * @property string $date
- * @property int $sent
- * @property int $delivered
- * @property int $errors
+ * @property int    $sent
+ * @property int    $delivered
+ * @property int    $errors
  *
  * @link http://esputnik.com.ua/api/el_ns0_callout.html
  */
-class CallOut extends Object
+class CallOut extends ESObject
 {
     /**
      * @var string

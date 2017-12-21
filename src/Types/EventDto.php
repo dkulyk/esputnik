@@ -1,27 +1,21 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class Event
  *
- * @property string $eventTypeKey
- * @property string $keyValue
+ * @property string      $eventTypeKey
+ * @property string      $keyValue
  * @property Parameter[] $parameters
  * @property string[string] $parametersArray
  *
  * @link http://esputnik.com.ua/api/el_ns0_eventDto.html
  */
-class EventDto extends Object
+class EventDto extends ESObject
 {
     /**
      * @var string
@@ -41,9 +35,9 @@ class EventDto extends Object
     /**
      * @param Parameter[] $parameters
      */
-    public function setParameters(array $parameters)
+    public function setParameters(array $parameters): void
     {
-        $this->parameters = array_map(function ($parameter) {
+        $this->parameters = \array_map(function ($parameter) {
             return $parameter instanceof Parameter ? $parameter : new Parameter($parameter);
         }, $parameters);
     }
@@ -54,9 +48,9 @@ class EventDto extends Object
      * @param string $name
      * @param string $value
      */
-    public function addParameter($name, $value)
+    public function addParameter($name, $value): void
     {
-        $this->parameters[] = new Parameter(array('name' => $name, 'value' => $value));
+        $this->parameters[] = new Parameter(['name' => $name, 'value' => $value]);
     }
 
     /**
@@ -64,12 +58,12 @@ class EventDto extends Object
      *
      * @return string[]
      */
-    public function getParametersArray()
+    public function getParametersArray(): array
     {
-        return array_reduce($this->parameters, function (array $result, Parameter $parameter) {
+        return \array_reduce($this->parameters, function (array $result, Parameter $parameter) {
             $result[$parameter->name] = $parameter->value;
             return $result;
-        }, array());
+        }, []);
     }
 
     /**
@@ -77,14 +71,14 @@ class EventDto extends Object
      *
      * @param string[] $parameters
      */
-    public function setParametersArray(array $parameters)
+    public function setParametersArray(array $parameters): void
     {
-        $this->parameters = array();
+        $this->parameters = [];
         foreach ($parameters as $name => $value) {
-            $this->parameters[] = new Parameter(array(
-                'naem'  => $name,
+            $this->parameters[] = new Parameter([
+                'name' => $name,
                 'value' => $value
-            ));
+            ]);
         }
     }
 }

@@ -1,11 +1,5 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik;
 
@@ -15,11 +9,14 @@ use ReflectionProperty;
 /**
  * Class Object
  */
-class Object implements \JsonSerializable
+class ESObject implements \JsonSerializable
 {
     /**
      * Object constructor.
+     *
      * @param array $data
+     *
+     * @throws ESException
      */
     public function __construct(array $data = array())
     {
@@ -30,6 +27,7 @@ class Object implements \JsonSerializable
 
     /**
      * @param string $property
+     *
      * @return mixed
      * @throws ESException
      */
@@ -47,7 +45,8 @@ class Object implements \JsonSerializable
 
     /**
      * @param string $property
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @throws ESException
      */
     public function __set($property, $value)

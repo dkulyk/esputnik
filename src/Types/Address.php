@@ -1,15 +1,9 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class Address
@@ -21,7 +15,7 @@ use ESputnik\Object;
  *
  * @link http://esputnik.com.ua/api/el_ns0_address.html
  */
-class Address extends Object
+class Address extends ESObject
 {
     /**
      * @var string

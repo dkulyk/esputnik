@@ -1,26 +1,20 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class AddressBook
  *
- * @property int $addressBookId
- * @property string $name
+ * @property int          $addressBookId
+ * @property string       $name
  * @property FieldGroup[] $fieldGroups
  *
  * @link http://esputnik.com.ua/api/el_ns0_addressBook.html
  */
-class AddressBook extends Object
+class AddressBook extends ESObject
 {
     /**
      * @var int
@@ -51,5 +45,4 @@ class AddressBook extends Object
             return $group instanceof FieldGroup ? $group : new FieldGroup($group);
         }, $groups);
     }
-
 }

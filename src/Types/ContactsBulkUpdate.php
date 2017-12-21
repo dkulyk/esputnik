@@ -1,31 +1,25 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
 use ESputnik\ESException;
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class ContactsBulkUpdate
  *
- * @property Contact[] $contacts
- * @property mixed $dedupeOn
- * @property int $fieldId
+ * @property Contact[]      $contacts
+ * @property mixed          $dedupeOn
+ * @property int            $fieldId
  * @property ContactField[] $contactFields
- * @property int[] $customFieldsIDs
- * @property string[] $groupNames
- * @property boolean $restoreDeleted
+ * @property int[]          $customFieldsIDs
+ * @property string[]       $groupNames
+ * @property boolean        $restoreDeleted
  *
  * @link http://esputnik.com.ua/api/el_ns0_contactsBulkUpdate.html
  */
-class ContactsBulkUpdate extends Object
+class ContactsBulkUpdate extends ESObject
 {
     /**
      * @var Contact[]
@@ -65,9 +59,9 @@ class ContactsBulkUpdate extends Object
     /**
      * @param Contact[] $contacts
      */
-    public function setContacts(array $contacts)
+    public function setContacts(array $contacts): void
     {
-        $this->contacts = array_map(function ($contact) {
+        $this->contacts = \array_map(function ($contact) {
             return $contact instanceof Contact ? $contact : new Contact($contact);
         }, $contacts);
     }
@@ -76,14 +70,15 @@ class ContactsBulkUpdate extends Object
      * Set the DedupeOn value
      *
      * @param string|int $dedupeOn
+     *
      * @throws ESException
      */
-    public function setDedupeOn($dedupeOn)
+    public function setDedupeOn($dedupeOn): void
     {
         static $values = array('email', 'sms', 'email_or_sms', 'fieldId', 'id');
 
-        if (!in_array($dedupeOn, $values, true)) {
-            if (is_numeric($dedupeOn)) {
+        if (!\in_array($dedupeOn, $values, true)) {
+            if (\is_numeric($dedupeOn)) {
                 $this->fieldId = (int)$dedupeOn;
                 $dedupeOn = 'fieldId';
             } else {
@@ -98,11 +93,12 @@ class ContactsBulkUpdate extends Object
      * Set the contactFields value
      *
      * @param ContactField[] $contactFields
+     *
      * @throws ESException
      */
     public function setContactFields(array $contactFields)
     {
-        static $values = array(
+        static $values = [
             'firstName',
             'contactKey',
             'lastName',
@@ -112,11 +108,14 @@ class ContactsBulkUpdate extends Object
             'town',
             'region',
             'postcode'
-        );
+        ];
 
         $this->contactFields = array_map(function ($contactField) use ($values) {
-            if (!in_array($contactField, $values, true)) {
-                throw new ESException('Property contactFields must be array of ' . implode(', ', $values) . ' values.');
+            if (!\in_array($contactField, $values, true)) {
+                throw new ESException('Property contactFields must be array of ' . \implode(
+                        ', ',
+                        $values
+                    ) . ' values.');
             }
         }, $contactFields);
     }
@@ -124,16 +123,16 @@ class ContactsBulkUpdate extends Object
     /**
      * @param int[] $customFieldsIDs
      */
-    public function setCustomFieldsIDs(array $customFieldsIDs)
+    public function setCustomFieldsIDs(array $customFieldsIDs): void
     {
-        $this->customFieldsIDs = array_map('intval', $customFieldsIDs);
+        $this->customFieldsIDs = array_map('\intval', $customFieldsIDs);
     }
 
     /**
      * @param string[] $groupNames
      */
-    public function setGroupNames(array $groupNames)
+    public function setGroupNames(array $groupNames): void
     {
-        $this->groupNames = array_map('strval', $groupNames);
+        $this->groupNames = array_map('\strval', $groupNames);
     }
 }

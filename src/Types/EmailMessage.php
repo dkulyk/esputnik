@@ -1,29 +1,23 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class EmailMessage
  *
- * @property integer $id
- * @property string $name
- * @property string $from
- * @property string $subject
- * @property string $htmlText
+ * @property integer  $id
+ * @property string   $name
+ * @property string   $from
+ * @property string   $subject
+ * @property string   $htmlText
  * @property string[] $tags
  *
  * @link http://esputnik.com.ua/api/el_ns0_emailMessage.html
  */
-class EmailMessage extends Object
+class EmailMessage extends ESObject
 {
     /**
      * @var int
@@ -54,5 +48,4 @@ class EmailMessage extends Object
      * @var string[]
      */
     protected $tags = array();
-
 }

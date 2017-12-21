@@ -1,26 +1,20 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
 use ESputnik\ESException;
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class SubscribeContact
  *
- * @property Contact $contact
- * @property string $dedupeOn
+ * @property Contact  $contact
+ * @property string   $dedupeOn
  * @property string[] $groups
  * @link http://esputnik.com.ua/api/el_ns0_subscribeContact.html
  */
-class SubscribeContact extends Object
+class SubscribeContact extends ESObject
 {
     /**
      * @var Contact
@@ -47,16 +41,17 @@ class SubscribeContact extends Object
 
     /**
      * @param string $dedupeOn
+     *
      * @throws ESException
      */
-    public function setDedupeOn($dedupeOn)
+    public function setDedupeOn($dedupeOn): void
     {
         static $values = array(
             'email',
             'sms'
         );
 
-        if (!in_array($dedupeOn, $values)) {
+        if (!\in_array($dedupeOn, $values, true)) {
             throw new ESException('Property type must be one of ' . implode(', ', $values) . ' values.');
         }
 
@@ -64,9 +59,9 @@ class SubscribeContact extends Object
     }
 
     /**
-     * @param (string|Group)[] $groups
+     * @param string[]|Group[] $groups
      */
-    public function setGroups(array $groups)
+    public function setGroups(array $groups): void
     {
         $this->groups = array_map(function ($group) {
             if ($group instanceof Group) {

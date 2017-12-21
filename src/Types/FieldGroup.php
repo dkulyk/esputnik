@@ -1,25 +1,19 @@
 <?php
-/**
- * This file is part of ESputnik API connector
- *
- * @package ESputnik
- * @license MIT
- * @author Dmytro Kulyk <lnkvisitor.ts@gmail.com>
- */
+declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\Object;
+use ESputnik\ESObject;
 
 /**
  * Class FieldGroup
  *
- * @property string $name
+ * @property string      $name
  * @property FieldInfo[] $fields
  *
  * @link http://esputnik.com.ua/api/ns0_fieldGroup.html
  */
-class FieldGroup extends Object
+class FieldGroup extends ESObject
 {
     /**
      * @var string
@@ -34,19 +28,19 @@ class FieldGroup extends Object
     /**
      * @param FieldInfo[] $fields
      */
-    public function setFields(array $fields)
+    public function setFields(array $fields): void
     {
-        $this->fields = array_map(function ($field) {
+        $this->fields = \array_map(function ($field) {
             return $field instanceof FieldInfo ? $field : new FieldInfo($field);
         }, $fields);
     }
 
     /**
-     * @return FieldInfo[int]
+     * @return FieldInfo[]
      */
-    public function fieldsById()
+    public function fieldsById(): array
     {
-        return array_reduce($this->fields, function ($result, FieldInfo $field) {
+        return \array_reduce($this->fields, function ($result, FieldInfo $field) {
             $result[$field->id] = $field;
             return $result;
         }, array());
