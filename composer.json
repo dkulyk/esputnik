@@ -16,5 +16,15 @@
         "psr-4": {
             "ESputnik\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ESputnik\\LaravelServiceProvider"
+            ],
+            "aliases": {
+                "Modules": "ESputnik\\Facades\\ESputnik"
+            }
+        }
     }
 }

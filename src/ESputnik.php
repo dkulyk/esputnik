@@ -33,12 +33,12 @@ class ESputnik
     /**
      * Get global/initialize ESputnik instance
      *
-     * @param null $user
-     * @param null $password
+     * @param string $user
+     * @param string $password
      *
      * @return ESputnik
      */
-    public static function instance($user = null, $password = null): ESputnik
+    public static function instance(string $user = '', string $password = ''): ESputnik
     {
         if (static::$_id === null) {
             static::$_id = new static($user, $password);
@@ -73,7 +73,7 @@ class ESputnik
      * @param string $user
      * @param string $password
      */
-    public function __construct($user, $password)
+    public function __construct(string $user, string $password)
     {
         $this->client = new Client([
             'base_uri' => 'https://esputnik.com.ua/api/',
@@ -130,7 +130,7 @@ class ESputnik
      * @return Types\CallOut[]
      * @throws ESException
      */
-    public function getCallOutsSms($offset = 0, $limit = 10): array
+    public function getCallOutsSms(int $offset = 0, int $limit = 10): array
     {
         $response = $this->request('GET', 'v1/callouts/sms', [
             'startindex' => $offset + 1,
@@ -152,7 +152,7 @@ class ESputnik
      * @return Types\Contacts
      * @throws ESException
      */
-    public function searchContacts($offset = 0, $limit = 500, array $params = []): Types\Contacts
+    public function searchContacts(int $offset = 0, int $limit = 500, array $params = []): Types\Contacts
     {
         $response = $this->request('GET', 'v1/contacts', \array_merge($params, [
             'startindex' => $offset + 1,
@@ -206,7 +206,7 @@ class ESputnik
      * @return Types\Contact|null
      * @throws ESException
      */
-    public function getContact($id): ?Types\Contact
+    public function getContact(int $id): ?Types\Contact
     {
         try {
             return new Types\Contact($this->request('GET', 'v1/contact/' . $id));
@@ -281,7 +281,7 @@ class ESputnik
      * @return boolean
      * @throws ESException
      */
-    public function deleteContact($contact): bool
+    public function deleteContact(int $contact): bool
     {
         if ($contact instanceof Types\Contact) {
             $contact = $contact->id;
@@ -347,7 +347,7 @@ class ESputnik
      * @throws ESException
      * @todo
      */
-    public function resendEvents($eventTypeId, $start, $end)
+    public function resendEvents(int $eventTypeId, int $start, int $end)
     {
         $this->request('GET', 'v1/event', array(
             'eventTypeId' => $eventTypeId,
@@ -366,7 +366,7 @@ class ESputnik
      * @return Types\Group[]
      * @throws ESException
      */
-    public function searchGroups($name = '', $offset = 0, $limit = 500): array
+    public function searchGroups(string $name = '', int $offset = 0, int $limit = 500): array
     {
         $response = $this->request('GET', 'v1/groups', array(
             'startindex' => $offset + 1,
@@ -389,7 +389,7 @@ class ESputnik
      * @return Types\Contacts
      * @throws ESException
      */
-    public function getGroupContacts($group, $offset = 0, $limit = 500): Types\Contacts
+    public function getGroupContacts($group, int $offset = 0, int $limit = 500): Types\Contacts
     {
         if ($group instanceof Types\Group) {
             $group = $group->id;
@@ -446,7 +446,7 @@ class ESputnik
      * @return Types\EmailMessage[]
      * @throws ESException
      */
-    public function searchEmails($search = '', $offset = 0, $limit = 500)
+    public function searchEmails(string $search = '', int $offset = 0, int $limit = 500)
     {
         $response = $this->request('GET', 'v1/messages/email', [
             'startindex' => $offset + 1,
@@ -467,7 +467,7 @@ class ESputnik
      * @return Types\EmailMessage|null
      * @throws ESException
      */
-    public function getEmail($id): ?Types\EmailMessage
+    public function getEmail(int $id): ?Types\EmailMessage
     {
         $response = $this->request('GET', 'v1/messages/email/' . $id);
 
@@ -625,7 +625,7 @@ class ESputnik
      * @return mixed
      * @throws ESException
      */
-    protected function request($method, $action, array $query = array(), $data = null, &$headers = null)
+    protected function request(string $method, string $action, array $query = array(), $data = null, &$headers = null)
     {
         try {
             $response = $this->client->request($method, $action . '?' . http_build_query($query), [
