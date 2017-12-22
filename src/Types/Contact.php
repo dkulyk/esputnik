@@ -114,7 +114,7 @@ class Contact extends ESObject
     public function addChannel(string $type, string $value): Channel
     {
         return $this->channels[] = new Channel(array(
-            'channelType' => $type,
+            'type' => $type,
             'value' => $value
         ));
     }

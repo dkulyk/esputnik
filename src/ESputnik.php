@@ -266,9 +266,6 @@ class ESputnik
     public function subscribeContact(SubscribeContact $subscribeContact): bool
     {
         $response = $this->request('POST', 'v1/contact/subscribe', [], $subscribeContact);
-        if ($this->httpCode === 404) {
-            return false;
-        }
 
         return $response !== false;
     }
