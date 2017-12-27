@@ -29,6 +29,10 @@ class ESputnik
      * @var ESputnik
      */
     protected static $_id;
+    /**
+     * @var int|null
+     */
+    private $book;
 
     /**
      * Get global/initialize ESputnik instance
@@ -38,10 +42,10 @@ class ESputnik
      *
      * @return ESputnik
      */
-    public static function instance(string $user = '', string $password = ''): ESputnik
+    public static function instance(string $user = '', string $password = '', int $book = null): ESputnik
     {
         if (static::$_id === null) {
-            static::$_id = new static($user, $password);
+            static::$_id = new static($user, $password, $book);
         }
         return static::$_id;
     }
@@ -70,10 +74,11 @@ class ESputnik
     /**
      * ESputnik constructor
      *
-     * @param string $user
-     * @param string $password
+     * @param string   $user
+     * @param string   $password
+     * @param int|null $book
      */
-    public function __construct(string $user, string $password)
+    public function __construct(string $user, string $password, int $book = null)
     {
         $this->client = new Client([
             'base_uri' => 'https://esputnik.com.ua/api/',
@@ -84,6 +89,8 @@ class ESputnik
             RequestOptions::AUTH => [$user, $password],
             RequestOptions::CONNECT_TIMEOUT => 2
         ]);
+
+        $this->book = $book;
     }
 
     /**
@@ -228,6 +235,9 @@ class ESputnik
      */
     public function addContact(Types\Contact $contact): bool
     {
+        if ($this->book !== null && $contact->addressBookId === null) {
+            $contact->addressBookId = $this->book;
+        }
         $result = $this->request('POST', 'v1/contact', [], $contact);
         if (\is_array($result) && \array_key_exists('id', $result)) {
             $contact->id = $result['id'];
@@ -265,6 +275,9 @@ class ESputnik
      */
     public function subscribeContact(SubscribeContact $subscribeContact): bool
     {
+        if ($this->book !== null && $subscribeContact->contact->addressBookId === null) {
+            $subscribeContact->contact->addressBookId = $this->book;
+        }
         $response = $this->request('POST', 'v1/contact/subscribe', [], $subscribeContact);
 
         return $response !== false;

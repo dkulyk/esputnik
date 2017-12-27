@@ -16,7 +16,12 @@ class LaravelServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('esputnik', function () {
-            return ESputnik::instance(config('esputnik.user', ''), config('esputnik.password', ''));
+            $book = (int)config('esputnik.book');
+            return ESputnik::instance(
+                config('esputnik.user', ''),
+                config('esputnik.password', ''),
+                $book ? null : $book
+            );
         });
 
         $this->app->alias('esputnik', ESputnik::class);
