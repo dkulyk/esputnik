@@ -20,7 +20,7 @@ class LaravelServiceProvider extends ServiceProvider
             return ESputnik::instance(
                 config('esputnik.user', ''),
                 config('esputnik.password', ''),
-                $book ? null : $book
+                $book ?: null
             );
         });
 

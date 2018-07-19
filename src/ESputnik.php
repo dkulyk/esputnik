@@ -37,8 +37,9 @@ class ESputnik
     /**
      * Get global/initialize ESputnik instance
      *
-     * @param string $user
-     * @param string $password
+     * @param string   $user
+     * @param string   $password
+     * @param int|null $book
      *
      * @return ESputnik
      */
@@ -87,7 +88,7 @@ class ESputnik
                 'Content-Type' => 'application/json'
             ],
             RequestOptions::AUTH => [$user, $password],
-            RequestOptions::CONNECT_TIMEOUT => 2
+            RequestOptions::CONNECT_TIMEOUT => 2,
         ]);
 
         $this->book = $book;
