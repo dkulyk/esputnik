@@ -531,9 +531,23 @@ class ESputnik
         return $response !== false;
     }
 
-    public function getInstantMessagesStatus()
+    /**
+     * @param array $ids
+     *
+     * @return Types\InstantMessageStatusDto[]
+     * @throws ESException
+     */
+    public function getInstantMessagesStatus(array $ids): array
     {
-        // message/status GET
+        $response = $this->request('GET', 'v1/message/status', array(
+            'ids' => implode(',', $ids),
+        ))['results'];
+
+        return array_key_exists('status', $response)
+            ? [new Types\InstantMessageStatusDto($response)]
+            : array_map(function ($response) {
+                new Types\InstantMessageStatusDto($response);
+            }, $response);
     }
 
     public function sendSMS()
@@ -581,7 +595,8 @@ class ESputnik
             return false;
         }
 
-        return isset($response['locator']) ? [new Types\SendMessageResultDto($response)] : array_map(function ($response) {
+        return isset($response['locator']) ? [new Types\SendMessageResultDto($response)] : array_map(function ($response
+        ) {
             new Types\SendMessageResultDto($response);
         }, $response);
     }
