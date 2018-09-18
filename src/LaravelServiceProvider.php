@@ -15,16 +15,12 @@ class LaravelServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->singleton('esputnik', function () {
-            $book = (int)config('esputnik.book');
-            return ESputnik::instance(
-                config('esputnik.user', ''),
-                config('esputnik.password', ''),
-                $book ?: null
-            );
+        $this->app->singleton('esputnik', function ($app) {
+            return new ESputnikManager($app);
         });
 
         $this->app->alias('esputnik', ESputnik::class);
+        $this->app->alias('esputnik', ESputnikManager::class);
 
         $path = \dirname(__DIR__) . '/config/config.php';
 
@@ -38,6 +34,6 @@ class LaravelServiceProvider extends ServiceProvider
      */
     public function provides(): array
     {
-        return ['esputnik', ESputnik::class];
+        return ['esputnik', ESputnik::class, ESputnikManager::class];
     }
 }

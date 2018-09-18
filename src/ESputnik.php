@@ -566,9 +566,24 @@ class ESputnik
         // /v1/message/{id}/send	POST
     }
 
-    public function sendExtendedPreparedMessage()
+    /**
+     * @param int                 $id
+     * @param Types\MessageParams $messageParams
+     *
+     * @return Types\SendMessageResultDto[]|null
+     * @throws ESException
+     */
+    public function sendExtendedPreparedMessage(int $id, Types\MessageParams $messageParams): ?array
     {
-        // /v1/message/{id}/smartsend	POST
+        $response = $this->request('POST', "v1/message/{$id}/smartsend", [], $messageParams)['results'];
+
+        if ($this->httpCode === 404) {
+            return false;
+        }
+
+        return isset($response['locator']) ? [new Types\SendMessageResultDto($response)] : array_map(function ($response) {
+            new Types\SendMessageResultDto($response);
+        }, $response);
     }
 
     public function ordersBulkInsert(array $orders)
