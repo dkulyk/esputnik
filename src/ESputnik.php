@@ -595,10 +595,11 @@ class ESputnik
             return false;
         }
 
-        return isset($response['locator']) ? [new Types\SendMessageResultDto($response)] : array_map(function ($response
-        ) {
-            new Types\SendMessageResultDto($response);
-        }, $response);
+        return isset($response['locator'])
+            ? [new Types\SendMessageResultDto($response)]
+            : array_map(function ($response) {
+                return new Types\SendMessageResultDto($response);
+            }, $response);
     }
 
     public function ordersBulkInsert(array $orders)
@@ -666,7 +667,7 @@ class ESputnik
      * @return mixed
      * @throws ESException
      */
-    protected function request(string $method, string $action, array $query = array(), $data = null, &$headers = null)
+    public function request(string $method, string $action, array $query = array(), $data = null, &$headers = null)
     {
         try {
             $response = $this->client->request($method, $action . '?' . http_build_query($query), [

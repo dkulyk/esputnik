@@ -12,6 +12,7 @@ use ESputnik\ESObject;
  * @property-read string $locator
  * @property-read string $status
  * @property-read string $requestId
+ * @property-read string $message
  */
 class SendMessageResultDto extends ESObject
 {
@@ -34,4 +35,9 @@ class SendMessageResultDto extends ESObject
      * @var string
      */
     protected $requestId;
+
+    /**
+     * @var string
+     */
+    protected $message;
 }

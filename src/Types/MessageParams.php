@@ -29,6 +29,11 @@ class MessageParams extends ESObject
     protected $fromName = null;
 
     /**
+     * @var bool
+     */
+    protected $email = true;
+
+    /**
      * @param int $campaignId
      *
      * @return MessageParams
@@ -59,6 +64,7 @@ class MessageParams extends ESObject
     public function setFromName(string $fromName): MessageParams
     {
         $this->fromName = $fromName;
+
         return $this;
     }
 
@@ -67,9 +73,22 @@ class MessageParams extends ESObject
      *
      * @return MessageParams
      */
-    public function apendRecipients(ParametrizedLocator $recipient): MessageParams
+    public function appendRecipients(ParametrizedLocator $recipient): MessageParams
     {
         $this->recipients[] = $recipient;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $email
+     *
+     * @return MessageParams
+     */
+    public function setEmail(bool $email): MessageParams
+    {
+        $this->email = $email;
+
         return $this;
     }
 }
