@@ -546,7 +546,7 @@ class ESputnik
         return array_key_exists('status', $response)
             ? [new Types\InstantMessageStatusDto($response)]
             : array_map(function ($response) {
-                new Types\InstantMessageStatusDto($response);
+                return new Types\InstantMessageStatusDto($response);
             }, $response);
     }
 
