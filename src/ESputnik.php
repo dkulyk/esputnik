@@ -37,8 +37,8 @@ class ESputnik
     /**
      * Get global/initialize ESputnik instance
      *
-     * @param string   $user
-     * @param string   $password
+     * @param string $user
+     * @param string $password
      * @param int|null $book
      *
      * @return ESputnik
@@ -75,8 +75,8 @@ class ESputnik
     /**
      * ESputnik constructor
      *
-     * @param string   $user
-     * @param string   $password
+     * @param string $user
+     * @param string $password
      * @param int|null $book
      */
     public function __construct(string $user, string $password, int $book = null)
@@ -89,6 +89,7 @@ class ESputnik
             ],
             RequestOptions::AUTH => [$user, $password],
             RequestOptions::CONNECT_TIMEOUT => 2,
+//            'debug'=>true,
         ]);
 
         $this->book = $book;
@@ -153,8 +154,8 @@ class ESputnik
     /**
      * Search for contacts.
      *
-     * @param int   $offset
-     * @param int   $limit
+     * @param int $offset
+     * @param int $limit
      * @param array $params
      *
      * @return Types\Contacts
@@ -371,8 +372,8 @@ class ESputnik
      * Search groups.
      *
      * @param string $name
-     * @param int    $offset
-     * @param int    $limit
+     * @param int $offset
+     * @param int $limit
      *
      * @return Types\Group[]
      * @throws ESException
@@ -417,9 +418,19 @@ class ESputnik
         ));
     }
 
-    public function sendEmail()
+    /**
+     * @param \ESputnik\Types\Email $email
+     *
+     * @return array
+     * @throws \ESputnik\ESException
+     */
+    public function sendEmail(Types\Email $email)
     {
-        // /v1/message/email	POST
+        $response = $this->request('POST', 'v1/message/email', [], $email);
+
+        return array_map(function (array $message) {
+            return new Types\SendMessageResultDto($message);
+        }, $response['results']);
     }
 
     public function getInstantEmailStatus()
@@ -451,8 +462,8 @@ class ESputnik
      * Search email-messages on the part of the name or label.
      *
      * @param string $search
-     * @param int    $offset
-     * @param int    $limit
+     * @param int $offset
+     * @param int $limit
      *
      * @return Types\EmailMessage[]
      * @throws ESException
@@ -581,7 +592,7 @@ class ESputnik
     }
 
     /**
-     * @param int                 $id
+     * @param int $id
      * @param Types\MessageParams $messageParams
      *
      * @return Types\SendMessageResultDto[]|null
