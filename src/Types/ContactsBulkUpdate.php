@@ -9,13 +9,14 @@ use ESputnik\ESObject;
 /**
  * Class ContactsBulkUpdate
  *
- * @property Contact[]      $contacts
- * @property mixed          $dedupeOn
- * @property int            $fieldId
+ * @property Contact[] $contacts
+ * @property mixed $dedupeOn
+ * @property int $fieldId
  * @property ContactField[] $contactFields
- * @property int[]          $customFieldsIDs
- * @property string[]       $groupNames
- * @property boolean        $restoreDeleted
+ * @property int[] $customFieldsIDs
+ * @property string[] $groupNames
+ * @property string[] $groupNamesExclude
+ * @property boolean $restoreDeleted
  *
  * @link http://esputnik.com.ua/api/el_ns0_contactsBulkUpdate.html
  */
@@ -24,7 +25,7 @@ class ContactsBulkUpdate extends ESObject
     /**
      * @var Contact[]
      */
-    protected $contacts = array();
+    protected $contacts = [];
 
     /**
      * @var mixed
@@ -39,17 +40,22 @@ class ContactsBulkUpdate extends ESObject
     /**
      * @var ContactField[]
      */
-    protected $contactFields = array();
+    protected $contactFields = [];
 
     /**
      * @var int[]
      */
-    protected $customFieldsIDs = array();
+    protected $customFieldsIDs = [];
 
     /**
      * @var string[]
      */
-    protected $groupNames = array();
+    protected $groupNames = [];
+
+    /**
+     * @var string[]
+     */
+    protected $groupNamesExclude = [];
 
     /**
      * @var boolean
@@ -57,7 +63,7 @@ class ContactsBulkUpdate extends ESObject
     protected $restoreDeleted = false;
 
     /**
-     * @param Contact[] $contacts
+     * @param  Contact[]  $contacts
      */
     public function setContacts(array $contacts): void
     {
@@ -69,17 +75,17 @@ class ContactsBulkUpdate extends ESObject
     /**
      * Set the DedupeOn value
      *
-     * @param string|int $dedupeOn
+     * @param  string|int  $dedupeOn
      *
      * @throws ESException
      */
     public function setDedupeOn($dedupeOn): void
     {
-        static $values = array('email', 'sms', 'email_or_sms', 'fieldId', 'id');
+        static $values = ['email', 'sms', 'email_or_sms', 'fieldId', 'id'];
 
-        if (!\in_array($dedupeOn, $values, true)) {
+        if (! \in_array($dedupeOn, $values, true)) {
             if (\is_numeric($dedupeOn)) {
-                $this->fieldId = (int)$dedupeOn;
+                $this->fieldId = (int) $dedupeOn;
                 $dedupeOn = 'fieldId';
             } else {
                 throw new ESException('Property dedupeOn must be one of ' . implode(', ', $values) . ' or numeric.');
@@ -92,7 +98,7 @@ class ContactsBulkUpdate extends ESObject
     /**
      * Set the contactFields value
      *
-     * @param ContactField[] $contactFields
+     * @param  ContactField[]  $contactFields
      *
      * @throws ESException
      */
@@ -107,11 +113,11 @@ class ContactsBulkUpdate extends ESObject
             'address',
             'town',
             'region',
-            'postcode'
+            'postcode',
         ];
 
         $this->contactFields = array_map(function ($contactField) use ($values) {
-            if (!\in_array($contactField, $values, true)) {
+            if (! \in_array($contactField, $values, true)) {
                 throw new ESException('Property contactFields must be array of ' . \implode(
                         ', ',
                         $values
@@ -121,7 +127,7 @@ class ContactsBulkUpdate extends ESObject
     }
 
     /**
-     * @param int[] $customFieldsIDs
+     * @param  int[]  $customFieldsIDs
      */
     public function setCustomFieldsIDs(array $customFieldsIDs): void
     {
@@ -129,10 +135,18 @@ class ContactsBulkUpdate extends ESObject
     }
 
     /**
-     * @param string[] $groupNames
+     * @param  string[]  $groupNames
      */
     public function setGroupNames(array $groupNames): void
     {
         $this->groupNames = array_map('\strval', $groupNames);
+    }
+
+    /**
+     * @param  string[]  $groupNames
+     */
+    public function setGroupNamesExclude(array $groupNames): void
+    {
+        $this->groupNamesExclude = array_map('\strval', $groupNames);
     }
 }

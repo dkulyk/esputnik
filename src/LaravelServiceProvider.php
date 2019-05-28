@@ -22,7 +22,7 @@ class LaravelServiceProvider extends ServiceProvider
         $this->app->alias('esputnik', ESputnik::class);
         $this->app->alias('esputnik', ESputnikManager::class);
 
-        $path = \dirname(__DIR__) . '/config/config.php';
+        $path = dirname(__DIR__) . '/config/config.php';
 
         $this->mergeConfigFrom($path, 'esputnik');
 

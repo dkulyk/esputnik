@@ -669,16 +669,18 @@ class ESputnik
     /**
      * Make request to ESputnik API
      *
-     * @param       $method
-     * @param       $action
-     * @param array $query
-     * @param mixed $data
-     * @param array $headers [optional]
+     * @param  string  $method
+     * @param  string  $action
+     * @param  array  $query
+     * @param  mixed  $data
+     * @param  array  $headers  [optional]
      *
+     * @param  bool  $json
      * @return mixed
-     * @throws ESException
+     * @throws \ESputnik\ESException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function request(string $method, string $action, array $query = array(), $data = null, &$headers = null)
+    public function request(string $method, string $action, array $query = array(), $data = null, &$headers = null, $json = true)
     {
         try {
             $response = $this->client->request($method, $action . '?' . http_build_query($query), [
@@ -687,8 +689,10 @@ class ESputnik
             $this->httpCode = $response->getStatusCode();
 
             $headers = $response->getHeaders();
-
-            return \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+            if ($json) {
+                return \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+            }
+            return null;
         } catch (ClientException $exception) {
             $response = $exception->getResponse();
             if ($response === null) {
