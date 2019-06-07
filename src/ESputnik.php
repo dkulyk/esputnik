@@ -115,6 +115,7 @@ class ESputnik
     public function getAddressBooks(): Types\AddressBook
     {
         $response = $this->request('GET', 'v1/addressbooks');
+
         return new Types\AddressBook($response['addressBook']);
     }
 
@@ -203,6 +204,7 @@ class ESputnik
 
         return \array_reduce($response['results'], function ($result, $item) {
             $result[$item['contactId']] = $item['email'];
+
             return $result;
         }, []);
     }
@@ -243,6 +245,7 @@ class ESputnik
         $result = $this->request('POST', 'v1/contact', [], $contact);
         if (\is_array($result) && \array_key_exists('id', $result)) {
             $contact->id = $result['id'];
+
             return true;
         }
         return false;
@@ -603,7 +606,7 @@ class ESputnik
         $response = $this->request('POST', "v1/message/{$id}/smartsend", [], $messageParams)['results'];
 
         if ($this->httpCode === 404) {
-            return false;
+            return null;
         }
 
         return isset($response['locator'])

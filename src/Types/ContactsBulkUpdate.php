@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace ESputnik\Types;
 
-use ESputnik\ESException;
-use ESputnik\ESObject;
+use ESputnik\{ESObject, ESException};
 
 /**
  * Class ContactsBulkUpdate
@@ -123,6 +122,8 @@ class ContactsBulkUpdate extends ESObject
                         $values
                     ) . ' values.');
             }
+
+            return $contactField;
         }, $contactFields);
     }
 
