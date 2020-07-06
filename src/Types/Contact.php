@@ -86,7 +86,7 @@ class Contact extends ESObject
     }
 
     /**
-     * @param ContactField[] $fields
+     * @param ContactField[]|array[] $fields
      */
     public function setFields(array $fields): void
     {

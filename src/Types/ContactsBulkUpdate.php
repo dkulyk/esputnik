@@ -97,7 +97,7 @@ class ContactsBulkUpdate extends ESObject
     /**
      * Set the contactFields value
      *
-     * @param  ContactField[]  $contactFields
+     * @param  string[]  $contactFields
      *
      * @throws ESException
      */
