@@ -11,6 +11,7 @@ use ESputnik\ESObject;
  *
  * @property Contact  $contact
  * @property string[] $groups
+ * @property string[] $subscriptions
  * @property string   $formType
  * @link http://esputnik.com.ua/api/el_ns0_subscribeContact.html
  */
@@ -20,6 +21,11 @@ class SubscribeContact extends ESObject
      * @var Contact
      */
     protected $contact;
+
+    /**
+     * @var string[]
+     */
+    protected $subscriptions = [];
 
 //    /**
 //     * @var string
