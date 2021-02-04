@@ -17,7 +17,7 @@ class EsputnikServiceProvider implements ServiceProviderInterface, ServiceProvid
         return 'ESputnik';
     }
 
-    public function getNovaFields(NovaRequest $request, bool $action): array
+    public function getNovaFields(NovaRequest $request): array
     {
         return [
             Text::make('Логін', 'user')
@@ -37,8 +37,10 @@ class EsputnikServiceProvider implements ServiceProviderInterface, ServiceProvid
         ];
     }
 
-    public function checkConfig(?array $config): bool
+    public function check(ServiceDescriptionInterface $service): bool
     {
+        $config = $service->getConfig();
+
         return ! empty($config['user']) && ! empty($config['password']);
     }
 
