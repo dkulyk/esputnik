@@ -7,13 +7,11 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Class ESputnik
- * @package ESputnik\Facades
+ * @method static string[] availableDrivers()
+ * @method static \ESputnik\ESputnik driver(string $driver = null)
  */
 class ESputnik extends Facade
 {
-    /**
-     * @return string
-     */
     protected static function getFacadeAccessor(): string
     {
         return 'esputnik';

@@ -1,50 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ESputnik;
 
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Manager;
 use InvalidArgumentException;
 
 /**
  * Class ESputnikManager
- * @package ESputnik
  * @mixin ESputnik
  */
-class ESputnikManager
+class ESputnikManager extends Manager
 {
-    /**
-     * The application instance.
-     *
-     * @var \Illuminate\Foundation\Application
-     */
-    protected $app;
-
-    /**
-     * The registered custom driver creators.
-     *
-     * @var array
-     */
-    protected $customCreators = [];
-
-    /**
-     * The array of created "drivers".
-     *
-     * @var array
-     */
-    protected $drivers = [];
-
-    /**
-     * Create a new manager instance.
-     *
-     * @param  \Illuminate\Foundation\Application $app
-     *
-     * @return void
-     */
-    public function __construct($app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Get the default driver name.
      *
@@ -52,42 +21,13 @@ class ESputnikManager
      */
     public function getDefaultDriver()
     {
-        return 'default';
-    }
-
-    /**
-     * Get a driver instance.
-     *
-     * @param  string $driver
-     *
-     * @return mixed
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function driver($driver = null)
-    {
-        $driver = $driver ?: $this->getDefaultDriver();
-
-        if (is_null($driver)) {
-            throw new InvalidArgumentException(sprintf(
-                'Unable to resolve NULL driver for [%s].', static::class
-            ));
-        }
-
-        // If the given driver has not been created before, we will create the instances
-        // here and cache it so we can return it next time very quickly. If there is
-        // already a driver created by this name, we'll just return that instance.
-        if (!isset($this->drivers[$driver])) {
-            $this->drivers[$driver] = $this->createDriver($driver);
-        }
-
-        return $this->drivers[$driver];
+        return $this->config->get('esputnik.default');
     }
 
     /**
      * Create a new driver instance.
      *
-     * @param  string $driver
+     * @param  string  $driver
      *
      * @return mixed
      *
@@ -95,29 +35,29 @@ class ESputnikManager
      */
     protected function createDriver($driver)
     {
-        $config = config("esputnik.{$driver}");
+        if (isset($this->customCreators[$driver])) {
+            return $this->callCustomCreator($driver);
+        }
 
-        if (empty($config) || !\is_array($config)) {
+        $config = $this->config->get("esputnik.accounts.{$driver}");
+
+        if (empty($config) || ! \is_array($config)) {
             throw new InvalidArgumentException("Driver [$driver] not supported.");
         }
 
         return new ESputnik(
             $config['user'] ?? '',
             $config['password'] ?? '',
-            $config['book'] ?? null
+            $config['book'] ?? null,
+            (bool) ($config['debug'] ?? false)
         );
     }
 
-    /**
-     * Dynamically call the default driver instance.
-     *
-     * @param  string $method
-     * @param  array  $parameters
-     *
-     * @return mixed
-     */
-    public function __call($method, $parameters)
+    public function availableDrivers(): array
     {
-        return $this->driver()->$method(...$parameters);
+        return array_unique([
+            ...array_keys($this->customCreators),
+            ...array_keys(array_filter($this->config->get("esputnik.accounts"))),
+        ]);
     }
 }

@@ -2,7 +2,7 @@
     "name": "dkulyk/esputnik",
     "description": "ESputnik connector",
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=8.0",
         "guzzlehttp/guzzle": "^6.3 | ^7.0"
     },
     "license": "MIT",
@@ -16,6 +16,9 @@
         "psr-4": {
             "ESputnik\\": "src/"
         }
+    },
+    "suggest": {
+        "dtkt/service-manager": "Adds support for configuration over admin (^1.0)"
     },
     "extra": {
         "laravel": {
