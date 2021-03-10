@@ -159,7 +159,7 @@ class ESputnik
      */
     public function contactsBulkUpdate(Types\ContactsBulkUpdate $contacts)
     {
-        return $this->request('POST', 'v1/contacts', data: $contacts);
+        return $this->request('POST', 'v1/contacts', data: $contacts, json: true);
     }
 
     /**
